@@ -9,6 +9,13 @@ app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
 
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*')
+  res.setHeader('Access-Control-Allow-Methods', 'GET')
+  res.setHeader('Access-Control-Allow-Heeaders', 'Content-Type')
+  next()
+})
+
 app.use('/movies', movieRoutes)
 
 app.get('/health-check', (req, res) => {
