@@ -16,7 +16,7 @@ router.get('/', (req, res, next) => {
     .then(checkStatus)
     .then(res => res.json())
     .then(json => res.send(json))
-    .catch(err => console.error(err))
+    .catch(err => next(err))
 })
 
 router.get('/popular', (req, res, next) => {
@@ -24,7 +24,7 @@ router.get('/popular', (req, res, next) => {
     .then(checkStatus)
     .then(res => res.json())
     .then(json => res.send(json))
-    .catch(err => console.error(err))
+    .catch(err => next(err))
 })
 
 router.get('/:movieId', (req, res, next) => {
@@ -33,7 +33,7 @@ router.get('/:movieId', (req, res, next) => {
     .then(checkStatus)
     .then(res => res.json())
     .then(json => res.send(json))
-    .catch(err => console.error(err))
+    .catch(err => next(err))
 })
 
 module.exports = router
