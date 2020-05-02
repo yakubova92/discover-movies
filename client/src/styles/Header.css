@@ -1,0 +1,8 @@
+.app-header {
+  height: 15vh;
+  display: flex;
+  align-items: center;
+  font-size: calc(10px + 2vmin);
+  color: white;
+  padding-left: 100px;
+}

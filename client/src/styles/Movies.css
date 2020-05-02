@@ -1,0 +1,8 @@
+.search-bar {
+  margin: 0 auto 10px auto;
+  display: flex;
+}
+
+.movie-card {
+  margin: 20px !important;
+}

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
-import '../MovieDetails.css'
+import '../styles/MovieDetails.css'
 import { Card, Grid, Icon, Image, Label, Message } from 'semantic-ui-react'
+import Header from '../components/Header'
+import CastMemberCard from '../components/CastMemberCard'
 import { imageUrl, localUrl } from '../constants'
 
 const MovieDetails = ({match}) => {
@@ -27,7 +28,7 @@ const MovieDetails = ({match}) => {
 
   return (
     <div>
-      <Link to={'/'}> All movies </Link>
+      <Header />
       {error
         ? <Message negative>
             <Message.Header>Something went wrong!</Message.Header>
@@ -57,11 +58,7 @@ const MovieDetails = ({match}) => {
                     <Card.Group itemsPerRow={5} className='cast-card-group'>
                       {movie.mainCast.map(member => {
                         return (
-                          <Card>
-                            <Image size='small' rounded wrapped src={`${imageUrl}/w185/${member.profile_path}`} />
-                            <Card.Header>{member.name}</Card.Header>
-                            <Card.Meta>{member.character}</Card.Meta>
-                          </Card>
+                          <CastMemberCard member={member} />
                         )
                       })}
                     </Card.Group>
