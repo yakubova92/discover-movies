@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import '../MovieDetails.css'
-import { Grid, Icon, Image, Label, Message } from 'semantic-ui-react'
+import { Card, Grid, Icon, Image, Label, Message } from 'semantic-ui-react'
 import { imageUrl, localUrl } from '../constants'
 
 const MovieDetails = ({match}) => {
@@ -35,7 +35,7 @@ const MovieDetails = ({match}) => {
         : <div className='backdrop' style={{backgroundImage: `url(${imageUrl}/w1280/${movie.backdrop_path})`}}>
             <div className='content'>
               <Grid columns={2} stackable>
-                <Grid.Column textAlign='center'>
+                <Grid.Column textAlign='center' width={6}>
                   <Grid.Row>
                     <Image bordered rounded wrapped src={`${imageUrl}/w342/${movie.poster_path}`} />
                   </Grid.Row>
@@ -53,6 +53,19 @@ const MovieDetails = ({match}) => {
                   </h4>
                   <h3>{movie.tagline}</h3>
                   <p>{movie.overview}</p>
+                  {movie.mainCast && (
+                    <Card.Group itemsPerRow={5} className='cast-card-group'>
+                      {movie.mainCast.map(member => {
+                        return (
+                          <Card>
+                            <Image size='small' rounded wrapped src={`${imageUrl}/w185/${member.profile_path}`} />
+                            <Card.Header>{member.name}</Card.Header>
+                            <Card.Meta>{member.character}</Card.Meta>
+                          </Card>
+                        )
+                      })}
+                    </Card.Group>
+                  )}
                 </Grid.Column>
               </Grid>
             </div>

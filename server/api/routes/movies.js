@@ -29,10 +29,24 @@ router.get('/popular', (req, res, next) => {
 
 router.get('/:movieId', (req, res, next) => {
   const { movieId } = req.params
-  return fetch(`${API_URL}/movie/${movieId}?api_key=${api_key}`)
+  return fetch(`${API_URL}/movie/${movieId}?api_key=${api_key}&append_to_response=credits`)
     .then(checkStatus)
     .then(res => res.json())
-    .then(json => res.send(json))
+    .then(json => {
+      return res.send({
+        id: json.id,
+        backdrop_path: json.backdrop_path,
+        genres: json.genres,
+        mainCast: json.credits.cast.slice(0,5),
+        overview: json.overview,
+        poster_path: json.poster_path,
+        release_date: json.release_date,
+        status: json.status,
+        tagline: json.tagline,
+        title: json.title,
+        vote_average: json.vote_average,
+      })
+    })
     .catch(err => next(err))
 })
 
