@@ -1,17 +1,17 @@
 import React from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import './App.css';
-import Movies from './Movies'
+import Movies from './pages/Movies'
+import MovieDetails from './pages/MovieDetails';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <p>
-          Movie Discovery
-        </p>
-      </header>
-      <Movies />
-    </div>
+    <BrowserRouter>
+      <Switch>
+        <Route path="/" exact component={Movies} />
+        <Route path="/movies/:movieId" exact component={MovieDetails} />
+      </Switch>
+    </BrowserRouter>
   );
 }
 

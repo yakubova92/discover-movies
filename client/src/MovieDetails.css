@@ -1,0 +1,23 @@
+.backdrop {
+  height: 75vh;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-image: linear-gradient(to right, rgba(28.24%, 32.55%, 10.20%, 1.00) 150px, rgba(35.69%, 40.39%, 16.47%, 0.84) 100%);
+}
+
+.content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 40px;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+}
+
+.description-column {
+  margin-top: auto;
+  margin-bottom: auto;
+}
