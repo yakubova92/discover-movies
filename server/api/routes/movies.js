@@ -11,7 +11,6 @@ const checkStatus = res => {
 }
 
 router.get('/', (req, res, next) => {
-  console.log('req.query', req.query)
   const title = req.query.title
   return fetch(`${API_URL}/search/movie?api_key=${api_key}&language=en-US&query=${title}&page=1&include_adult=false`)
     .then(checkStatus)
