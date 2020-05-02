@@ -6,3 +6,7 @@
 .movie-card {
   margin: 20px !important;
 }
+
+.dimmer .content {
+  background-color: transparent;
+}

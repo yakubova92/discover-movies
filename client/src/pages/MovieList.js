@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { Card, Input, Message } from 'semantic-ui-react'
-import '../styles/Movies.css'
+import { Card, Dimmer, Input, Loader, Message } from 'semantic-ui-react'
+import '../styles/MovieList.css'
 import Header from '../components/Header'
 import MovieCard from '../components/MovieCard'
 import { localUrl } from '../constants'
@@ -46,18 +46,23 @@ const MovieList = () => {
           <Message.Header>Oops! Something went wrong</Message.Header>
         </Message>
       }
-      {movies && !movies.length
-        ? <Message negative>
-            <Message.Header>Sorry, no movies!</Message.Header>
-          </Message>
-        : <Card.Group centered doubling itemsPerRow={4}>
-          {movies.map(movie => {
-            return (
-              <MovieCard key={movie.id} movie={movie} />
-            )
-          })}
-        </Card.Group>
-      }
+      <div>
+        <Dimmer className='dimmer' active={loading}>
+          <Loader />
+        </Dimmer>
+        {movies && !movies.length
+          ? <Message negative>
+              <Message.Header>Sorry, no movies!</Message.Header>
+            </Message>
+          : <Card.Group centered doubling itemsPerRow={4}>
+            {movies.map(movie => {
+              return (
+                <MovieCard key={movie.id} movie={movie} />
+              )
+            })}
+          </Card.Group>
+        }
+      </div>
     </div>
   )
 }
