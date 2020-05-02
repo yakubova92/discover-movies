@@ -10,12 +10,25 @@ const checkStatus = res => {
   throw new Error(`Something went wrong: Received ${res.status} status from MovieDB Api`)
 }
 
+const mapForUI = result => {
+  return result.results.map(movie => {
+    return {
+      id: movie.id,
+      overview: `${movie.overview.substring(0, 150)}...`,
+      poster_path: movie.poster_path,
+      release_date: movie.release_date.substring(0,4),
+      title: movie.title,
+      vote_average: movie.vote_average,
+    }
+  })
+}
+
 router.get('/', (req, res, next) => {
   const title = req.query.title
   return fetch(`${API_URL}/search/movie?api_key=${api_key}&language=en-US&query=${title}&page=1&include_adult=false`)
     .then(checkStatus)
     .then(res => res.json())
-    .then(json => res.send(json))
+    .then(json => res.send(mapForUI(json)))
     .catch(err => next(err))
 })
 
@@ -23,7 +36,7 @@ router.get('/popular', (req, res, next) => {
   return fetch(`${API_URL}/movie/popular?api_key=${api_key}&language=en-US&page=1`)
     .then(checkStatus)
     .then(res => res.json())
-    .then(json => res.send(json))
+    .then(json => res.send(mapForUI(json)))
     .catch(err => next(err))
 })
 
@@ -32,8 +45,7 @@ router.get('/:movieId', (req, res, next) => {
   return fetch(`${API_URL}/movie/${movieId}?api_key=${api_key}&append_to_response=credits`)
     .then(checkStatus)
     .then(res => res.json())
-    .then(json => {
-      return res.send({
+    .then(json => res.send({
         id: json.id,
         backdrop_path: json.backdrop_path,
         genres: json.genres,
@@ -46,7 +58,7 @@ router.get('/:movieId', (req, res, next) => {
         title: json.title,
         vote_average: json.vote_average,
       })
-    })
+    )
     .catch(err => next(err))
 })
 

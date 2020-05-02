@@ -5,13 +5,13 @@ import { imageUrl } from '../constants'
 
 const MovieCard = ({movie}) => {
   return (
-    <Link to={`/movies/${movie.id}`} key={movie.id}>
+    <Link to={`/movies/${movie.id}`}>
       <Card className='movie-card'>
         <Image src={`${imageUrl}/w342/${movie.poster_path}`} wrapped ui={false} rounded/>
         <Card.Content>
-          <Card.Header>{movie.title}</Card.Header>
+          <Card.Header>{movie.title} ({movie.release_date})</Card.Header>
           <Card.Description>
-            {`${movie.overview.substring(0, 150)}...`}
+            {movie.overview}
           </Card.Description>
         </Card.Content>
         <Card.Content extra textAlign='left'>

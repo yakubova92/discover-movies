@@ -58,7 +58,7 @@ const MovieDetails = ({match}) => {
                     <Card.Group itemsPerRow={5} className='cast-card-group'>
                       {movie.mainCast.map(member => {
                         return (
-                          <CastMemberCard member={member} />
+                          <CastMemberCard key={member.id} member={member} />
                         )
                       })}
                     </Card.Group>

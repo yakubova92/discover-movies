@@ -16,7 +16,7 @@ const MovieList = () => {
     let url = searchQuery ? `${localUrl}/movies/?title=${searchQuery}` : `${localUrl}/movies/popular`
     const res = await fetch(url)
     res.json().then(res => {
-      setMovies(res.results)
+      setMovies(res)
       setLoading(false)
       setError('')
     }).catch(err => {
@@ -53,7 +53,7 @@ const MovieList = () => {
         : <Card.Group centered doubling itemsPerRow={4}>
           {movies.map(movie => {
             return (
-              <MovieCard movie={movie} />
+              <MovieCard key={movie.id} movie={movie} />
             )
           })}
         </Card.Group>
