@@ -14,9 +14,9 @@ const mapForUI = result => {
   return result.results.map(movie => {
     return {
       id: movie.id,
-      overview: `${movie.overview.substring(0, 150)}...`,
+      overview: movie.overview ? `${movie.overview.substring(0, 150)}...` : '',
       poster_path: movie.poster_path,
-      release_date: movie.release_date.substring(0,4),
+      release_date: movie.release_date ? movie.release_date.substring(0,4) : '',
       title: movie.title,
       vote_average: movie.vote_average,
     }
@@ -24,19 +24,26 @@ const mapForUI = result => {
 }
 
 router.get('/', (req, res, next) => {
-  const title = req.query.title
-  return fetch(`${API_URL}/search/movie?api_key=${api_key}&language=en-US&query=${title}&page=1&include_adult=false`)
+  const { title, page } = req.query
+  return fetch(`${API_URL}/search/movie?api_key=${api_key}&language=en-US&query=${title}&page=${page}&include_adult=false`)
     .then(checkStatus)
     .then(res => res.json())
-    .then(json => res.send(mapForUI(json)))
+    .then(json => res.send({
+      totalResults: json.total_results,
+      results: mapForUI(json)
+    }))
     .catch(err => next(err))
 })
 
 router.get('/popular', (req, res, next) => {
-  return fetch(`${API_URL}/movie/popular?api_key=${api_key}&language=en-US&page=1`)
+  const { page } = req.query
+  return fetch(`${API_URL}/movie/popular?api_key=${api_key}&language=en-US&page=${page}`)
     .then(checkStatus)
     .then(res => res.json())
-    .then(json => res.send(mapForUI(json)))
+    .then(json => res.send({
+      totalResults: json.total_results,
+      results: mapForUI(json)
+    }))
     .catch(err => next(err))
 })
 

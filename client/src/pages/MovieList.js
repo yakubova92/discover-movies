@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Card, Dimmer, Input, Loader, Message } from 'semantic-ui-react'
+import { Button, Card, Dimmer, Divider, Input, Loader, Message } from 'semantic-ui-react'
 import '../styles/MovieList.css'
 import Header from '../components/Header'
 import MovieCard from '../components/MovieCard'
@@ -10,14 +10,21 @@ const MovieList = () => {
   const [searchQuery, setSearchQuery] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [popularDisplayed, setPopularDisplayed] = useState(true)
+  const [page, setPage] = useState(1)
+  const [totalResults, setTotalResults] = useState(0)
 
   async function fetchMovies() {
     setLoading(true)
-    let url = searchQuery ? `${localUrl}/movies/?title=${searchQuery}` : `${localUrl}/movies/popular`
+    let url = searchQuery
+      ? `${localUrl}/movies/?title=${searchQuery}&page=${page}`
+      : `${localUrl}/movies/popular/?page=${page}`
     const res = await fetch(url)
     res.json().then(res => {
-      setMovies(res)
+      page === 1 ? setMovies(res.results) : setMovies([...movies, ...res.results])
+      setTotalResults(res.totalResults)
       setLoading(false)
+      searchQuery ? setPopularDisplayed(false) : setPopularDisplayed(true)
       setError('')
     }).catch(err => {
       setError('')
@@ -25,9 +32,14 @@ const MovieList = () => {
     })
   }
 
+  function handleSearchChange(value) {
+    setSearchQuery(value)
+    setPage(1)
+  }
+
   useEffect(() => {
     fetchMovies()
-  }, [searchQuery])
+  }, [searchQuery, page])
 
   return (
     <div>
@@ -38,7 +50,7 @@ const MovieList = () => {
           icon='search'
           loading={loading}
           placeholder='search by title'
-          onChange={e => setSearchQuery(e.target.value)}
+          onChange={(e, { value }) => handleSearchChange(value)}
         />
       </div>
       {error &&
@@ -54,13 +66,25 @@ const MovieList = () => {
           ? <Message negative>
               <Message.Header>Sorry, no movies!</Message.Header>
             </Message>
-          : <Card.Group centered doubling itemsPerRow={4}>
-            {movies.map(movie => {
-              return (
-                <MovieCard key={movie.id} movie={movie} />
-              )
-            })}
-          </Card.Group>
+          : <>
+              <div className='result-description'>
+                <Divider horizontal className='result-description'>
+                Displaying {movies.length} out of {totalResults} {popularDisplayed ? 'popular movies' : 'search results'}
+                </Divider>
+              </div>
+              <Card.Group centered doubling itemsPerRow={4}>
+                {movies.map(movie => {
+                  return (
+                    <MovieCard key={movie.id} movie={movie} />
+                  )
+                })}
+              </Card.Group>
+                {movies.length < totalResults &&
+                  <Button className='show-more-button' color='teal' size='big' onClick={() => setPage(page+1)}>
+                    Show More
+                  </Button>
+                }
+            </>
         }
       </div>
     </div>

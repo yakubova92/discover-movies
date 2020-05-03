@@ -10,3 +10,13 @@
 .dimmer .content {
   background-color: transparent;
 }
+
+.result-description {
+  color: white !important;
+}
+
+.show-more-button {
+  margin: 20px auto 75px auto !important;
+  display: flex !important;
+  padding: 10px 100px !important;
+}
