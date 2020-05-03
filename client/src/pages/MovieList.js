@@ -9,7 +9,7 @@ const MovieList = () => {
   const [movies, setMovies] = useState([])
   const [searchQuery, setSearchQuery] = useState('')
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
+  const [error, setError] = useState(null)
   const [popularDisplayed, setPopularDisplayed] = useState(true)
   const [page, setPage] = useState(1)
   const [totalResults, setTotalResults] = useState(0)
@@ -21,13 +21,17 @@ const MovieList = () => {
       : `${localUrl}/movies/popular/?page=${page}`
     const res = await fetch(url)
     res.json().then(res => {
-      page === 1 ? setMovies(res.results) : setMovies([...movies, ...res.results])
-      setTotalResults(res.totalResults)
-      setLoading(false)
-      searchQuery ? setPopularDisplayed(false) : setPopularDisplayed(true)
-      setError('')
+      if (res.error) {
+        setError(res.error)
+      }else {
+        page === 1 ? setMovies(res.results) : setMovies([...movies, ...res.results])
+        setTotalResults(res.totalResults)
+        setLoading(false)
+        searchQuery ? setPopularDisplayed(false) : setPopularDisplayed(true)
+        setError(null)
+      }
     }).catch(err => {
-      setError('')
+      setError(null)
       console.error(err)
     })
   }
@@ -56,6 +60,7 @@ const MovieList = () => {
       {error &&
         <Message negative>
           <Message.Header>Oops! Something went wrong</Message.Header>
+          <p>{error.message}</p>
         </Message>
       }
       <div>

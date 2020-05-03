@@ -7,7 +7,7 @@ const { api_key } = require('../../secrets')
 
 const checkStatus = res => {
   if (res.ok) return res
-  throw new Error(`Something went wrong: Received ${res.status} status from MovieDB Api`)
+  throw new Error(`Received ${res.status} status from MovieDB Api`)
 }
 
 const mapForUI = result => {

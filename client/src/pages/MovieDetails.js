@@ -8,14 +8,19 @@ import { imageUrl, localUrl } from '../constants'
 const MovieDetails = ({match}) => {
   const { movieId } = match.params
   const [movie, setMovie] = useState({})
-  const [error, setError] = useState('')
+  const [error, setError] = useState(null)
 
   async function fetchMovieDetails() {
     let url = `${localUrl}/movies/${movieId}`
     const res = await fetch(url)
     res.json().then(res => {
-      setMovie(res)
-      setError('')
+      console.error('res', res)
+      if (res.error) {
+        setError(res.error)
+      }else {
+        setMovie(res)
+        setError(null)
+      }
     }).catch(err => {
       console.error(err)
       setError(err)
@@ -32,6 +37,7 @@ const MovieDetails = ({match}) => {
       {error
         ? <Message negative>
             <Message.Header>Something went wrong!</Message.Header>
+            <p>{error.message}</p>
           </Message>
         : <div className='backdrop' style={{backgroundImage: `url(${imageUrl}/w1280/${movie.backdrop_path})`}}>
             <div className='content'>
