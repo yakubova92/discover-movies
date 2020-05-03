@@ -71,11 +71,9 @@ const MovieList = () => {
               <Message.Header>Sorry, no movies!</Message.Header>
             </Message>
           : <>
-              <div className='result-description'>
-                <Divider horizontal className='result-description'>
+              <Divider horizontal className='result-description'>
                 Displaying {movies.length} out of {totalResults} {popularDisplayed ? 'popular movies' : 'search results'}
-                </Divider>
-              </div>
+              </Divider>
               <Card.Group centered doubling itemsPerRow={4}>
                 {movies.map(movie => {
                   return (
