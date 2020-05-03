@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Button, Card, Dimmer, Divider, Input, Loader, Message } from 'semantic-ui-react'
 import '../styles/MovieList.css'
-import Header from '../components/Header'
-import MovieCard from '../components/MovieCard'
+import { Header, MovieCard } from '../components'
 import { localUrl } from '../constants'
 
 const MovieList = () => {

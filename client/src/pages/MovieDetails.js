@@ -14,9 +14,9 @@ const MovieDetails = ({match}) => {
     let url = `${localUrl}/movies/${movieId}`
     const res = await fetch(url)
     res.json().then(res => {
-      console.error('res', res)
       if (res.error) {
         setError(res.error)
+        console.error(res.error)
       }else {
         setMovie(res)
         setError(null)
@@ -25,6 +25,11 @@ const MovieDetails = ({match}) => {
       console.error(err)
       setError(err)
     })
+  }
+
+  function findBackgroundImage(){
+    if(movie.backdrop_path) return `url(${imageUrl}/w1280/${movie.backdrop_path})`
+    else return ''
   }
 
   useEffect(() => {
@@ -39,12 +44,14 @@ const MovieDetails = ({match}) => {
             <Message.Header>Something went wrong!</Message.Header>
             <p>{error.message}</p>
           </Message>
-        : <div className='backdrop' style={{backgroundImage: `url(${imageUrl}/w1280/${movie.backdrop_path})`}}>
+          : <div className='backdrop' style={{backgroundImage: findBackgroundImage()}}>
             <div className='content'>
               <Grid columns={2} stackable>
                 <Grid.Column textAlign='center' width={6}>
                   <Grid.Row>
+                    {movie.poster_path &&
                     <Image bordered rounded wrapped src={`${imageUrl}/w342/${movie.poster_path}`} />
+                    }
                   </Grid.Row>
                 </Grid.Column>
                 <Grid.Column className='description-column'>
