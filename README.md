@@ -10,8 +10,8 @@ module.exports = {
 }
 ```
 * The front-end and back-end are decoupled and run on separate servers. For this app to function properly, you will need to run both servers at the same time.
-  * To run the back-end, open a terminal window and cd into `/server`. Run `npm run start`. The server will be listening at port 8000
-  * To run the front-end, open a second terminal window or tab and cd into `/client`. Run `npm run start`. Open your browser and go to `localhost:3000`. You should see the home page.
+  * To run the back-end, open a terminal window and cd into `/server`. Run `npm install` and `npm run start`. The server will be listening at port 8000
+  * To run the front-end, open a second terminal window or tab and cd into `/client`. Run `npm install` and `npm run start`. Open your browser and go to `localhost:3000`. You should see the home page.
 
 ## Running Through Features
 * The home page displays popular movies on load.
